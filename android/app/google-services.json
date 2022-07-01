@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "112579152271",
+    "project_id": "yegna-gebeya",
+    "storage_bucket": "yegna-gebeya.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112579152271:android:d62ec3af195ece2d4123fa",
+        "android_client_info": {
+          "package_name": "com.yegnagebeya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112579152271-rs6u7ot3fjhb8n4ukbun4uqp8l0nnfie.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqwK5sBFGmhJClpyK4fHyvTH2hEOT6vsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112579152271-rs6u7ot3fjhb8n4ukbun4uqp8l0nnfie.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "112579152271-hoai4q54olvb8ljsocmmcgp4n88ffrkp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.yegnagebeya.yegnaGebeya"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112579152271:android:f1071441dc7d6bf54123fa",
+        "android_client_info": {
+          "package_name": "com.yegnagebeya.yegna_gebeya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112579152271-rs6u7ot3fjhb8n4ukbun4uqp8l0nnfie.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqwK5sBFGmhJClpyK4fHyvTH2hEOT6vsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112579152271-rs6u7ot3fjhb8n4ukbun4uqp8l0nnfie.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "112579152271-hoai4q54olvb8ljsocmmcgp4n88ffrkp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.yegnagebeya.yegnaGebeya"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
