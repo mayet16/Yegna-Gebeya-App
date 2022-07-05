@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-//1
+import 'package:yegna_gebeya/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:yegna_gebeya/pages/sign_up.dart';
-
+import 'package:yegna_gebeya/authentication/authAction.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -57,7 +58,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-//4
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,213 +91,33 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Builder(builder: (BuildContext context) {
-//7
         return ListView(
           scrollDirection: Axis.vertical,
           padding: const EdgeInsets.all(16),
           children: <Widget>[
             //TODO: UI widgets will go here.
-            _RegisterEmailSection(),
-            _EmailPasswordForm(),
+              // EmailPasswordForm(),
+            /*ElevatedButton(
+              child: const Text('Create Account'),
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterEmailSection()),
+                );
+              },
+            ),*/
+               ElevatedButton(
+              child: const Text('Product list'),
+               onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductHome()),
+                );
+              },
+            ),
           ],
         );
       }),
     );
-  }
-}
-//registration
-class _RegisterEmailSection extends StatefulWidget {
-  final String title = 'Registration';
-  @override
-  State<StatefulWidget> createState() =>
-      _RegisterEmailSectionState();
-}
-class _RegisterEmailSectionState extends State<_RegisterEmailSection> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  late bool _success;
-  late String _userEmail;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-              validator: (String? value) {
-                if (value!.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText:
-              'Password'),
-              validator: (String? value) {
-                if (value!.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              alignment: Alignment.center,
-              child: RaisedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    _register();
-                  }
-                },
-                child: const Text('Submit'),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: Text(_success == null
-                  ? ''
-                  : (_success
-                  ? 'Successfully registered ' + _userEmail
-                  : 'Registration failed')),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _register() async {
-    final User? user = (await
-    _auth.createUserWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    )
-    ).user;
-    if (user != null) {
-      setState(() {
-        _success = true;
-        _userEmail = user.email!;
-      });
-    } else {
-      setState(() {
-        _success = true;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-}
-
-//login
-class _EmailPasswordForm extends StatefulWidget {
-  final String title = 'Login';
-  @override
-  State<StatefulWidget> createState() =>
-      _EmailPasswordFormState();
-}
-class _EmailPasswordFormState extends State<_EmailPasswordForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  late bool _success;
-  late String _userEmail;
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: const Text('Test sign in with email and password'),
-            padding: const EdgeInsets.all(16),
-            alignment: Alignment.center,
-          ),
-          TextFormField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
-            validator: (String? value) {
-              if (value!.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: _passwordController,
-            decoration: const InputDecoration(labelText: 'Password'),
-            validator: (String? value) {
-              if (value!.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            alignment: Alignment.center,
-            child: RaisedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  _signInWithEmailAndPassword();
-                }
-              },
-              child: const Text('Submit'),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              _success == null
-                  ? ''
-                  : (_success
-                  ? 'Successfully signed in ' + _userEmail
-                  : 'Sign in failed'),
-              style: TextStyle(color: Colors.red),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-  void _signInWithEmailAndPassword() async {
-    final User? user = (await _auth.signInWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    )).user;
-
-    if (user != null) {
-      setState(() {
-        _success = true;
-        _userEmail = user.email!;
-      });
-    } else {
-      setState(() {
-        _success = false;
-      });
-    }
   }
 }

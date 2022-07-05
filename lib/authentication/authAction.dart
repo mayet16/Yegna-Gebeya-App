@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:yegna_gebeya/home.dart';
 import '../firebase_options.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -88,10 +89,13 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
       setState(() {
         _success = true;
         _userEmail = user.email!;
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+                builder: (context) => const ProductHome()));
       });
     } else {
       setState(() {
-        _success = true;
+        _success = false;
       });
     }
   }
@@ -172,7 +176,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
                   : 'Sign in failed'),
               style: TextStyle(color: Colors.red),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -193,6 +197,9 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
       setState(() {
         _success = true;
         _userEmail = user.email!;
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+                builder: (context) => const ProductHome()));
       });
     } else {
       setState(() {
