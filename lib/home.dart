@@ -132,7 +132,14 @@ class _ProductPageState extends State<ProductHome> {
       body: StreamBuilder(
         stream: _productss.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-          if (streamSnapshot.hasData) {
+          if (streamSnapshot.hasError) {
+            return const Text('Something went wrong');
+          }
+
+          else if (streamSnapshot.connectionState == ConnectionState.waiting) {
+            return const Text("Loading");
+          }
+          else if (streamSnapshot.hasData) {
             return ListView.builder(
               itemCount: streamSnapshot.data!.docs.length,
               itemBuilder: (context, index) {
@@ -165,7 +172,6 @@ class _ProductPageState extends State<ProductHome> {
               },
             );
           }
-
           return const Center(
             child: CircularProgressIndicator(),
           );

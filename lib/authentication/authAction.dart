@@ -17,7 +17,7 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late bool _success;
+  late bool _success=false;
   late String _userEmail;
 
   @override
@@ -119,7 +119,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late bool _success;
+  late bool _success=false;
   late String _userEmail;
   @override
   Widget build(BuildContext context) {
@@ -206,4 +206,6 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
         _success = false;
       });
     }
-  }}
+  }
+}
+
