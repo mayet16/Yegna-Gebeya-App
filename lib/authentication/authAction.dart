@@ -61,7 +61,7 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
                     _register();
                   }
                 },
-                child: const Text('Submit'),
+                child: const Text('Register'),
               ),
             ),
             Container(
@@ -129,7 +129,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            child: const Text('Test sign in with email and password'),
+            child: const Text('Sign in with email and password'),
             padding: const EdgeInsets.all(16),
             alignment: Alignment.center,
           ),
@@ -162,7 +162,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
                   _signInWithEmailAndPassword();
                 }
               },
-              child: const Text('Submit'),
+              child: const Text('Login'),
             ),
           ),
           Container(

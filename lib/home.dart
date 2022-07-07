@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class ProductHome extends StatefulWidget {
@@ -16,11 +17,10 @@ class _ProductPageState extends State<ProductHome> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _typeController = TextEditingController();
-  final TextEditingController _imageController = TextEditingController();
+  final TextEditingController _zimageController = TextEditingController();
 
-
-  final CollectionReference _productss =
-  FirebaseFirestore.instance.collection('products');
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final CollectionReference _products = FirebaseFirestore.instance.collection('products');
 
   // This function is triggered when the floatting button or one of the edit buttons is pressed
   // Adding a product if no documentSnapshot is passed
@@ -32,7 +32,7 @@ class _ProductPageState extends State<ProductHome> {
       _nameController.text = documentSnapshot['name'];
       _priceController.text = documentSnapshot['price'].toString();
       _typeController.text = documentSnapshot['type'];
-      _imageController.text= documentSnapshot['image'];
+      _zimageController.text= documentSnapshot['zimage'];
 
     }
 
@@ -68,8 +68,8 @@ class _ProductPageState extends State<ProductHome> {
                   decoration: const InputDecoration(labelText: 'type'),
                 ),
                 TextField(
-                  controller: _imageController,
-                  decoration: const InputDecoration(labelText: 'image'),
+                  controller: _zimageController,
+                  decoration: const InputDecoration(labelText: 'zimage'),
                 ),
                 const SizedBox(
                   height: 20,
@@ -81,26 +81,26 @@ class _ProductPageState extends State<ProductHome> {
                     final double? price =
                     double.tryParse(_priceController.text);
                     final String? type = _typeController.text;
-                    final String? image = _imageController.text;
+                    final String? zimage = _zimageController.text;
 
-                    if (name != null && price != null && type != null && image != null) {
+                    if (name != null && price != null && type != null && zimage != null) {
                       if (action == 'create') {
                         // Persist a new product to Firestore
-                        await _productss.add({"name": name, "price": price, "type": type, "image": image});
+                        await _products.add({"name": name, "price": price, "type": type, "zimage": zimage});
                       }
 
                       if (action == 'update') {
                         // Update the product
-                        await _productss
+                        await _products
                             .doc(documentSnapshot!.id)
-                            .update({"name": name, "price": price, "type": type, "image": image});
+                            .update({"name": name, "price": price, "type": type, "zimage": zimage});
                       }
 
                       // Clear the text fields
                       _nameController.text = '';
                       _priceController.text = '';
                       _typeController.text = '';
-                      _imageController.text = '';
+                      _zimageController.text = '';
 
                       // Hide the bottom sheet
                       Navigator.of(context).pop();
@@ -115,7 +115,7 @@ class _ProductPageState extends State<ProductHome> {
 
   // Deleteing a product by id
   Future<void> _deleteProduct(String productId) async {
-    await _productss.doc(productId).delete();
+    await _products.doc(productId).delete();
 
     // Show a snackbar
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -126,11 +126,37 @@ class _ProductPageState extends State<ProductHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Yegna Gebeya'),
+        title: Text("Yegna Gebeya"),
+        actions: <Widget>[
+          Builder(builder: (BuildContext context) {
+//5
+            return FlatButton(
+              child: const Text('Sign out'),
+              textColor: Theme
+                  .of(context)
+                  .buttonColor,
+              onPressed: () async {
+                final User? user = _auth.currentUser;
+                if (user == null) {
+//6
+                  Scaffold.of(context).showSnackBar(const SnackBar(
+                    content: Text('No one has signed in.'),
+                  ));
+                  return;
+                }
+                await _auth.signOut();
+                final String uid = user.uid;
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text(uid + ' has successfully signed out.'),
+                ));
+              },
+            );
+          })
+        ],
       ),
       // Using StreamBuilder to display all products from Firestore in real-time
       body: StreamBuilder(
-        stream: _productss.snapshots(),
+        stream: _products.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasError) {
             return const Text('Something went wrong');

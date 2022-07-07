@@ -44,34 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+     appBar: AppBar(
         title: Text(widget.title),
-        actions: <Widget>[
-          Builder(builder: (BuildContext context) {
-//5
-            return FlatButton(
-              child: const Text('Sign out'),
-              textColor: Theme
-                  .of(context)
-                  .buttonColor,
-              onPressed: () async {
-                final User? user = _auth.currentUser;
-                if (user == null) {
-//6
-                  Scaffold.of(context).showSnackBar(const SnackBar(
-                    content: Text('No one has signed in.'),
-                  ));
-                  return;
-                }
-                await _auth.signOut();
-                final String uid = user.uid;
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text(uid + ' has successfully signed out.'),
-                ));
-              },
-            );
-          })
-        ],
       ),
       body: Builder(builder: (BuildContext context) {
         return ListView(
