@@ -32,6 +32,7 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextFormField(
+              autofocus: true,
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Email'),
               validator: (String? value) {
@@ -134,6 +135,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
             alignment: Alignment.center,
           ),
           TextFormField(
+            autofocus: true,
             controller: _emailController,
             decoration: const InputDecoration(labelText: 'Email'),
             validator: (String? value) {

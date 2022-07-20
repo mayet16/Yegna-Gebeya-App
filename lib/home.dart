@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'authentication/authAction.dart';
+
 
 class ProductHome extends StatefulWidget {
   const ProductHome({Key? key}) : super(key: key);
@@ -52,10 +54,12 @@ class _ProductPageState extends State<ProductHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextField(
+                  autofocus: true,
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'Name'),
                 ),
                 TextField(
+                  autofocus: true,
                   keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
                   controller: _priceController,
@@ -64,10 +68,12 @@ class _ProductPageState extends State<ProductHome> {
                   ),
                 ),
                 TextField(
+                  autofocus: true,
                   controller: _typeController,
                   decoration: const InputDecoration(labelText: 'type'),
                 ),
                 TextField(
+                  autofocus: true,
                   controller: _zimageController,
                   decoration: const InputDecoration(labelText: 'zimage'),
                 ),
@@ -131,24 +137,12 @@ class _ProductPageState extends State<ProductHome> {
           Builder(builder: (BuildContext context) {
 //5
             return FlatButton(
-              child: const Text('Sign out'),
-              textColor: Theme
-                  .of(context)
-                  .buttonColor,
+              child:Icon(Icons.logout_rounded, color: Colors.white,),
               onPressed: () async {
                 final User? user = _auth.currentUser;
-                if (user == null) {
-//6
-                  Scaffold.of(context).showSnackBar(const SnackBar(
-                    content: Text('No one has signed in.'),
-                  ));
-                  return;
+                if (user != null) {
+                  signOut();
                 }
-                await _auth.signOut();
-                final String uid = user.uid;
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text(uid + ' has successfully signed out.'),
-                ));
               },
             );
           })
@@ -209,5 +203,11 @@ class _ProductPageState extends State<ProductHome> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  signOut() async {
+    await _auth.signOut();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => EmailPasswordForm()));
   }
 }
